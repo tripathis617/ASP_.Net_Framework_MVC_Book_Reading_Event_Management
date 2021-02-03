@@ -1,0 +1,98 @@
+﻿@model IEnumerable<BookReadingEventManagement.Models.Events>
+
+@{
+    ViewData["Title"] = "MyEvents";
+}
+
+<h1>My Events</h1>
+
+<p>
+    <a class="btn btn-outline-success" asp-action="Create" style="float:right;margin-bottom:10px;">Create New Event</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                Date Time
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                Start Time
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>*@
+            <th>
+                Duration in Hours
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Other Details
+            </th>
+            <th>
+                Total Invited to Event
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.UserEmail)
+            </td>*@
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationinHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OtherDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalInviteByEmails)
+            </td>
+            <td>
+                @if (item.DateTime > DateTime.Today)
+                {
+                    <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+                @if (User.IsInRole("Administrator") && item.DateTime < DateTime.Today)
+                {
+                    <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+                @*<a class="btn btn-sm btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a>
+        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

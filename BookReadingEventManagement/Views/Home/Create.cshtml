@@ -1,0 +1,93 @@
+﻿@model BookReadingEventManagement.Models.Events
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 style="text-align:center">Create a New Event</h1>
+
+<h4>Fill the Details for the Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserEmail" class="control-label"></label>
+                <input asp-for="UserEmail" class="form-control" value="@User.Identity.Name"/>
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" placeholder="Title of Event" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Date Time</label>
+                <input asp-for="DateTime" class="form-control" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" placeholder="Location of Event" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Start Time</label>
+                <input type="time" asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                @Html.DropDownListFor(x => x.Type, new List<SelectListItem>
+                    {
+                        new SelectListItem() {Text = "Public", Value="Public"},
+                        new SelectListItem() {Text = "Private", Value="Private"}
+                    })
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DurationinHours" class="control-label"></label>
+                @Html.DropDownListFor(x => x.DurationinHours, new List<SelectListItem>
+                    {
+                        new SelectListItem() {Text = "1", Value="1"},
+                        new SelectListItem() {Text = "2", Value="2"},
+                        new SelectListItem() {Text = "3", Value="3"},
+                        new SelectListItem() {Text = "4", Value="4"}
+                    })
+                <span asp-validation-for="DurationinHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" placeholder="Details of the Event..." class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Other Details</label>
+                <textarea asp-for="OtherDetails" placeholder="Other Details for the Event..." class="form-control"></textarea>
+                <span asp-validation-for="OtherDetails" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Invite User By Emails</label>
+                <textarea asp-for="TotalInviteByEmails" placeholder="Enter Emails separated with comma(,)" class="form-control"></textarea>
+                <span asp-validation-for="TotalInviteByEmails" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="SAVE" title="Save this Event" class="btn btn-outline-success btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-sm">Back to List of Events</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,134 @@
+﻿@model Tuple<BookReadingEventManagement.Models.Events, List<BookReadingEventManagement.Models.Comment>, BookReadingEventManagement.Models.Comment>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Details of the Events</h4>
+    <hr />
+    <dl class="row">
+        @*<dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </dt>*@
+        @*<dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.UserEmail)
+            </dd>*@
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item1.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.Title)
+        </dd>
+        <dt class="col-sm-2">
+            Date Time
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.DateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item1.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.Location)
+        </dd>
+        <dt class="col-sm-2">
+            Start Time
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item1.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.Type)
+        </dd>
+        <dt class="col-sm-2">
+            Duration In Hours
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.DurationinHours)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item1.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Other Details
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.OtherDetails)
+        </dd>
+        <dt class="col-sm-2">
+            Total invited to event
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item1.TotalInviteByEmails)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.Item1.DateTime > DateTime.Today)
+    {
+        <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@Model.Item1.Id">Edit</a>
+    }
+    <a class="btn" asp-action="Index">Back to List</a>
+</div><br />
+
+<form id="createcommentform" hidden>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label">Comment</label>
+        <input id="Commenttext" placeholder="Add Comments for this Event" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button onclick="SaveComment()" title="Save this Comment" class="btn btn-sm btn-outline-success">Save Comment</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Previous Comments</th>
+            <th style="text-align:right"><button onclick="CommentBoxShower()" class="btn btn-sm btn-outline-dark">Add Comments</button></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Item2)
+        {
+            <tr>
+                <td>@item.CommentText</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function CommentBoxShower() {
+        document.getElementById("createcommentform").hidden = false;
+    }
+
+    function SaveComment() {
+        $.ajax({
+            type: 'POST',
+            url: '/Home/CreateComment',
+            data: {
+                CommentText: $("#Commenttext").val(),
+                EventId: "@Model.Item1.Id"
+            },
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
